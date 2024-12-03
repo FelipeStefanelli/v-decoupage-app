@@ -1,6 +1,9 @@
-import Header from "@/components/header";
+'use client'
+import dynamic from 'next/dynamic';
 
-export default function ClientLayout({children}) {
+const Header = dynamic(() => import('@/components/header'), { ssr: false });
+
+export default function ClientLayout({ children }) {
     return (
         <div>
             <Header />
