@@ -1,8 +1,8 @@
-import { Server } from 'socket.io';
+const { Server } = require('socket.io');
 
 let io;
 
-export const initSocket = (server) => {
+const initSocket = (server) => {
   if (!io) {
     io = new Server(server);
     
@@ -19,9 +19,15 @@ export const initSocket = (server) => {
   return io;
 };
 
-export const getIO = () => {
+const getIO = () => {
   if (!io) {
     throw new Error('Socket.io não está inicializado');
   }
   return io;
+};
+
+// Exportando as funções usando CommonJS
+module.exports = {
+  initSocket,
+  getIO
 };

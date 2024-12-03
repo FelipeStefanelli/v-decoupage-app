@@ -1,17 +1,53 @@
 {
   "name": "v-decoupage-app",
   "version": "0.1.0",
+  "main": "main.cjs",
+  "author": "FSAS <pipodaniel4@gmail.com>",
+  "build": {
+    "appId": "com.fsas.decoupage",
+    "productName": "DecoupageApp",
+    "files": [
+      "**/*",
+      ".next/**/*",
+      "public/**/*",
+      "package.json",
+      "next.config.js",
+      "main.cjs",
+      "socket.cjs"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "dev": "node server.cjs",
+    "build": "next build && electron-builder build",
+    "start": "concurrently \"NODE_ENV=production node server.cjs\" \"npm run electron\"",
     "lint": "next lint",
-    "export": "next export"
+    "export": "next export",
+    "electron": "electron ."
   },
   "dependencies": {
     "@hello-pangea/dnd": "^17.0.0",
+    "express": "^4.21.1",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
     "html2pdf.js": "^0.9.0",
@@ -29,6 +65,9 @@
     "@netlify/plugin-nextjs": "^5.8.1",
     "@types/node": "22.9.0",
     "@types/react": "18.3.12",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",

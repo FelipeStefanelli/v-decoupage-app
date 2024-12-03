@@ -1,26 +1,15 @@
 {
   "timecodes": [
     {
-      "id": "ac4a97cb-68e8-47f5-b576-a4ed85d329cb",
-      "inTime": 71.192554,
-      "outTime": 72.344305,
-      "duration": 1.1517510000000044,
-      "type": "A",
-      "text": "Pousando para a foto",
+      "id": "f452efe7-c3f3-4569-9355-70c804f85f7a",
+      "inTime": 45.566114,
+      "outTime": 56.363771,
+      "duration": 10.797657000000001,
+      "type": "",
+      "text": "",
       "rating": 0,
       "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-      "imageUrl": "/images/ac4a97cb-68e8-47f5-b576-a4ed85d329cb.jpg"
-    },
-    {
-      "id": "f7dbea23-4d56-49a2-ab25-815e68e9c2a9",
-      "inTime": 20.37158,
-      "outTime": 49.741208,
-      "duration": 29.369628,
-      "type": "AV",
-      "text": "Falando sobre a vida",
-      "rating": 0.5,
-      "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-      "imageUrl": "/images/f7dbea23-4d56-49a2-ab25-815e68e9c2a9.jpg"
+      "imageUrl": "/images/f452efe7-c3f3-4569-9355-70c804f85f7a.jpg"
     },
     {
       "id": "5cdd336a-0de2-4686-98e7-a712ad6d1fd6",
@@ -34,15 +23,26 @@
       "imageUrl": "/images/5cdd336a-0de2-4686-98e7-a712ad6d1fd6.jpg"
     },
     {
-      "id": "f452efe7-c3f3-4569-9355-70c804f85f7a",
-      "inTime": 45.566114,
-      "outTime": 56.363771,
-      "duration": 10.797657000000001,
-      "type": "",
-      "text": "",
+      "id": "f7dbea23-4d56-49a2-ab25-815e68e9c2a9",
+      "inTime": 20.37158,
+      "outTime": 49.741208,
+      "duration": 29.369628,
+      "type": "AV",
+      "text": "Falando sobre a vida",
+      "rating": 0.5,
+      "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
+      "imageUrl": "/images/f7dbea23-4d56-49a2-ab25-815e68e9c2a9.jpg"
+    },
+    {
+      "id": "ac4a97cb-68e8-47f5-b576-a4ed85d329cb",
+      "inTime": 71.192554,
+      "outTime": 72.344305,
+      "duration": 1.1517510000000044,
+      "type": "A",
+      "text": "Pousando para a foto",
       "rating": 0,
       "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-      "imageUrl": "/images/f452efe7-c3f3-4569-9355-70c804f85f7a.jpg"
+      "imageUrl": "/images/ac4a97cb-68e8-47f5-b576-a4ed85d329cb.jpg"
     },
     {
       "id": "8e51fccd-2a3d-4bd7-8afa-f8eda1db9319",
@@ -100,17 +100,6 @@
       "imageUrl": "/images/d02ff95b-1a09-4c34-876a-b030ef43f27f.jpg"
     },
     {
-      "id": "d3c917a2-5c03-4d1d-b7ca-8ff67fa17569",
-      "inTime": 56.471748,
-      "outTime": 66.837498,
-      "duration": 10.365749999999998,
-      "type": "",
-      "text": "",
-      "rating": 0,
-      "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-      "imageUrl": "/images/d3c917a2-5c03-4d1d-b7ca-8ff67fa17569.jpg"
-    },
-    {
       "id": "538f7ba3-9e7b-4d9d-93eb-37e3468e8a32",
       "inTime": 72.452281,
       "outTime": 75.763563,
@@ -120,6 +109,17 @@
       "rating": 0,
       "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
       "imageUrl": "/images/538f7ba3-9e7b-4d9d-93eb-37e3468e8a32.jpg"
+    },
+    {
+      "id": "d3c917a2-5c03-4d1d-b7ca-8ff67fa17569",
+      "inTime": 56.471748,
+      "outTime": 66.837498,
+      "duration": 10.365749999999998,
+      "type": "",
+      "text": "",
+      "rating": 0,
+      "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
+      "imageUrl": "/images/d3c917a2-5c03-4d1d-b7ca-8ff67fa17569.jpg"
     },
     {
       "id": "bc216933-b136-4fc1-9d11-60cb1027f184",
@@ -149,15 +149,15 @@
       ],
       "timecodes": [
         {
-          "id": "f62a3154-38d5-458c-afd5-33937a6b2026",
-          "inTime": 62.266491,
-          "outTime": 69.896835,
-          "duration": 7.630343999999994,
+          "id": "a04615e8-4651-482c-9384-f96b62fffa02",
+          "inTime": 66.585554,
+          "outTime": 68.457148,
+          "duration": 1.8715940000000018,
           "type": "V",
-          "text": "ggg fw fw t gwe tgwtfw w",
+          "text": "ewfwe wfw fw dfhth",
           "rating": 0,
           "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-          "imageUrl": "/images/f62a3154-38d5-458c-afd5-33937a6b2026.jpg"
+          "imageUrl": "/images/a04615e8-4651-482c-9384-f96b62fffa02.jpg"
         },
         {
           "id": "e91cad2a-b68f-4c59-b1ab-92f0a6d2ca2a",
@@ -171,15 +171,15 @@
           "imageUrl": "/images/e91cad2a-b68f-4c59-b1ab-92f0a6d2ca2a.jpg"
         },
         {
-          "id": "a04615e8-4651-482c-9384-f96b62fffa02",
-          "inTime": 66.585554,
-          "outTime": 68.457148,
-          "duration": 1.8715940000000018,
+          "id": "f62a3154-38d5-458c-afd5-33937a6b2026",
+          "inTime": 62.266491,
+          "outTime": 69.896835,
+          "duration": 7.630343999999994,
           "type": "V",
-          "text": "ewfwe wfw fw dfhth",
+          "text": "ggg fw fw t gwe tgwtfw w",
           "rating": 0,
           "videoName": "WhatsApp Video 2024-11-07 at 14.41.40.mp4",
-          "imageUrl": "/images/a04615e8-4651-482c-9384-f96b62fffa02.jpg"
+          "imageUrl": "/images/f62a3154-38d5-458c-afd5-33937a6b2026.jpg"
         },
         {
           "id": "e4b0b95e-050b-44b4-ac72-8ce35648f7d6",
