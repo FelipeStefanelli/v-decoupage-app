@@ -1,0 +1,55 @@
+.page {
+  flex: 1;
+  display: flex;
+  align-items: start;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  text-align: center;
+  cursor: grab;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.card.read-only {
+  cursor:default;
+}
+.card.dragging {
+  opacity: 0.1;
+  transform: scale(1.05);
+}
+
+.drop-zone {
+  border: 2px dashed #000;
+  background-color: #e0e0e0;
+}
+
+.timecode-drop-zone {
+  width: 224px;
+  height: 322px;
+}
+
+.script-drop-zone {
+  width: 234px;
+  height: 327px;
+}
+
+.audio-drop-zone {
+  width: 484px;
+  height: 160px;
+}
+
+.card.hidden {
+  opacity: 0;
+}
