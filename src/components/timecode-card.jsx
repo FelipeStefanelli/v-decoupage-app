@@ -78,7 +78,7 @@ const TimecodeCard = ({ id, timecode, updateTimecode, setActiveMenu, activeMenu,
                     activeMenu={activeMenu}
                     readOnly={type === 'AV-audio' ? true : false}
                 />
-                {type !== 'AV-audio' && verifyViews('classification') &&
+                {type !== 'AV-audio' && verifyViews('classification-view') &&
                     <ReactStars
                         value={timecode.rating}
                         count={3}

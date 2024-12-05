@@ -6,41 +6,28 @@ import { usePathname } from 'next/navigation';
 import { useRef, useState, useEffect } from "react";
 import { formatTimecode } from "@/utils/utils";
 import html2pdf from 'html2pdf.js';
-import TimecodeInput from "./timecode-input";
-import TimecodeCardReadOnly from "./timecode-card-read-only";
 import ScriptInput from "./script-input";
-import ReactStars from "react-stars";
-
+import { useVisibility } from '@/contexts/VisibilityContext';
 
 export default function Header(props) {
     const pathname = usePathname();
     const [projectName, setProjectName] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [updateFields, setUpdateFields] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState(null);
     const [showPreview, setshowPreview] = useState(null);
-    const [views, setViews] = useState(null);
     const [pdfController, setPdfController] = useState(null);
+
+    const { views, toggleView } = useVisibility();
 
     const contentRef = useRef(null);
 
-    useEffect(() => {
-        setViews({
-            'classification': localStorage.getItem('classification-view'),
-            'description': localStorage.getItem('description-view'),
-            'takes': localStorage.getItem('takes-view'),
-            'audio': localStorage.getItem('audio-view'),
-            'locution': localStorage.getItem('locution-view'),
-            'audios': localStorage.getItem('audios-view')
-        })
-    }, []);
     const pxToPt = (pixels) => {
         return pixels / 1.3333;
     };
+
     useEffect(() => {
         if (pdfController) {
-            console.log(contentRef.current.children[1].offsetHeight)
             const options = {
                 filename: 'documento.pdf', // Nome do arquivo PDF gerado
                 html2canvas: { scale: 2 }, // Escala para capturar com mais definição
@@ -161,97 +148,61 @@ export default function Header(props) {
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('classification-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('classification-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'classification-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('classification-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 16px 10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('classification-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Descrição" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['classification-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Descrição" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Classificação</span>
                         </div>
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('description-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('description-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'description-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('description-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 16px 10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('description-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Descrição" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['description-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Descrição" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Descrição</span>
                         </div>
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('takes-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('takes-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'takes-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('takes-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('takes-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Takes" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['takes-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Takes" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Takes</span>
                         </div>
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('audios-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('audios-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'audios-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('audios-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('audios-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Audios" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['audios-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Audios" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Audios</span>
                         </div>
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('audio-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('audio-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'audio-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('audio-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('audio-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Áudio" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['audio-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Áudio" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Áudio</span>
                         </div>
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                const newView = localStorage.getItem('locution-view') === 'show' ? 'hide' : 'show';
-                                localStorage.setItem('locution-view', newView);
-                                const event = new CustomEvent('localStorageUpdated', {
-                                    detail: { key: 'locution-view', value: newView }
-                                });
-                                window.dispatchEvent(event);
-                                setUpdateFields(updateFields + 1);
+                                toggleView('locution-view');
                             }}
                             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px 16px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
                         >
-                            <Image src={localStorage.getItem('locution-view') === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Locução" width={22} height={22} style={{ width: "22px", height: "22px" }} />
+                            <Image src={views['locution-view'] === 'show' ? 'eye2-on.svg' : 'eye2-off.svg'} alt="Locução" width={22} height={22} style={{ width: "22px", height: "22px" }} />
                             <span style={{ fontSize: '16px' }}>Locução</span>
                         </div>
                     </div>
@@ -613,7 +564,7 @@ export default function Header(props) {
                                                             :
                                                             <div style={{ display: 'flex', gap: '16px', padding: '16px' }}>
                                                                 <div style={{ flex: "1", display: 'flex', flexDirection: "column", gap: '8px' }}>
-                                                                    {script.activeFields.includes('description') && views.description === 'show' &&
+                                                                    {script.activeFields.includes('description') && views['description-view'] === 'show' &&
                                                                         <div style={{ padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                                             <div style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '14px' }}>
                                                                                 <Image src="/description.svg" alt="Descrição" width={18} height={18} style={{ width: '18px', height: '18px' }} />
@@ -629,7 +580,7 @@ export default function Header(props) {
                                                                             </div>
                                                                         </div>
                                                                     }
-                                                                    {script.activeFields.includes('takes') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views.takes === 'show' &&
+                                                                    {script.activeFields.includes('takes') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views['takes-view'] === 'show' &&
                                                                         <div
                                                                             style={{ paddingTop: '4px' }}
                                                                         >
@@ -829,19 +780,19 @@ export default function Header(props) {
                                                                     })}
                                                                 </div>
                                                                 <div style={{ flex: "1", display: 'flex', flexDirection: "column", gap: '8px' }}>
-                                                                    {script.activeFields.includes('audio') && views.audio === 'show' &&
+                                                                    {script.activeFields.includes('audio') && views['audio-view'] === 'show' &&
                                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                                             <Image src="/A.svg" alt="Áudio" width={18} height={18} style={{ width: "18px", height: "18px" }} />
                                                                             <ScriptInput readOnly placeholder='Áudio' value={script.audio} onChange={value => changeScene(script, 'audio', true, value)} script={script} />
                                                                         </div>
                                                                     }
-                                                                    {script.activeFields.includes('locution') && views.locution === 'show' &&
+                                                                    {script.activeFields.includes('locution') && views['locution-view'] === 'show' &&
                                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                                             <Image src="/blue-microphone.svg" alt="Locução" width={18} height={18} style={{ width: "18px", height: "18px" }} />
                                                                             <ScriptInput readOnly placeholder='Locução' value={script.locution} onChange={value => changeScene(script, 'locution', true, value)} script={script} />
                                                                         </div>
                                                                     }
-                                                                    {script.activeFields.includes('audios') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views.audios === 'show' &&
+                                                                    {script.activeFields.includes('audios') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views['audios-view'] === 'show' &&
                                                                         <div
                                                                             style={{ paddingTop: '4px' }}
                                                                         >

@@ -19,6 +19,7 @@ const TimecodesSection = (props) => {
 
     useEffect(() => {
         socket.on("updateTimecodes", (data) => {
+            console.log('Timecodes recebidos do servidor:', newTimecodes);
             setTimecodes(data.timecodes);
             setScripts(data.script);
         });

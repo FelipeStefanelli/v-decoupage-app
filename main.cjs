@@ -1,71 +1,78 @@
 const { app, BrowserWindow } = require('electron');
-const express = require('express');
+const next = require('next');
 const http = require('http');
 const path = require('path');
-const { initSocket } = require('./socket.cjs'); // Importe o código de socket.js
+const fs = require('fs');
+const { initSocket } = require('./socket.cjs');
 
-const isDev = process.env.NODE_ENV !== 'production';
+// Configurações do Next.js
+const dev = process.env.NODE_ENV !== 'production';
+const port = 3000;
+const nextApp = next({ dev });
+const nextHandler = nextApp.getRequestHandler();
 
-// Cria o servidor Express
-const server = express();
-const httpServer = http.createServer(server);
+// Para referenciar o arquivo data.json
+const jsonFilePath = path.join(__dirname, 'public', 'data', 'data.json');
 
-// Inicializa o Socket.IO
-initSocket(httpServer);
-
-// Inicie o servidor Next.js
-if (isDev) {
-  // No modo de desenvolvimento, o Next.js já estará rodando no localhost:3000
-  console.log('Iniciando em modo desenvolvimento...');
-} else {
-  // Em produção, sirva o conteúdo do build do Next.js
-  const next = require('next');
-  const nextApp = next({ dev: false });
-  const handle = nextApp.getRequestHandler();
-
-  nextApp.prepare().then(() => {
-    // Roteia todas as requisições para o Next.js
-    server.all('*', (req, res) => {
-      return handle(req, res);
-    });
-
-    // Inicia o servidor HTTP
-    httpServer.listen(3000, () => {
-      console.log('Servidor rodando em http://localhost:3000');
-    });
-  });
-}
-
-// Função para criar a janela principal do Electron
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
+nextApp.prepare().then(() => {
+  const server = http.createServer((req, res) => {
+    nextHandler(req, res);
   });
 
-  // Carrega o conteúdo do servidor Next.js
-  win.loadURL('http://localhost:3000');
-  win.maximize();
-}
+  // Inicializa o Socket.IO
+  const io = initSocket(server);
 
-// Quando o Electron estiver pronto, cria a janela
-app.whenReady().then(() => {
-  createWindow();
+  // Adiciona monitoramento para o arquivo JSON
+  fs.watch(jsonFilePath, (eventType, filename) => {
+    if (filename && eventType === 'change') {
+      fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Erro ao ler o arquivo JSON:', err);
+          return;
+        }
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+        const timecodes = JSON.parse(data);
+        console.log('Timecodes atualizados, enviando dados via WebSocket:', timecodes); // Log para garantir que está lendo
+        io.emit('updateTimecodes', timecodes); // Enviar os timecodes via WebSocket
+      });
     }
   });
-});
 
-// Fecha a aplicação quando todas as janelas são fechadas
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  server.listen(port, () => {
+    console.log(`> Servidor Next.js rodando em http://localhost:${port}`);
+  });
+
+  // Inicializa o Electron quando o servidor Next.js estiver pronto
+  app.whenReady().then(() => {
+    const createWindow = () => {
+      const mainWindow = new BrowserWindow({
+        width: 1024,  // Aumentei para melhorar a experiência
+        height: 768,
+        webPreferences: {
+          nodeIntegration: false, // Mantém isolado o Node.js para evitar problemas de segurança
+          contextIsolation: true,  // Garante que o contexto do JavaScript seja isolado
+          enableRemoteModule: false, // Desativa módulos remotos por segurança
+          preload: path.join(__dirname, 'preload.js'),
+        },
+      });
+      //mainWindow.loadURL(`file://${path.join(__dirname, '.next/server/pages/index.html')}`);
+      mainWindow.loadURL(`http://localhost:${port}`);
+
+      mainWindow.webContents.openDevTools(); // Abrir DevTools para inspecionar eventos e JS
+    };
+
+    createWindow();
+
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  });
+
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
 });

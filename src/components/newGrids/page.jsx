@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useVisibility } from '@/contexts/VisibilityContext';
 
 const socket = io();
 
@@ -18,7 +19,8 @@ const TimecodesSection = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(null);
     const [moveDropdownOpen, setMoveDropdownOpen] = useState(null);
     const [moveSceneId, setMoveSceneId] = useState('');
-    const [views, setViews] = useState(null);
+
+    const { views } = useVisibility();
 
     let draggedCard = null;
     let draggedCardInfo = null;
@@ -26,6 +28,7 @@ const TimecodesSection = (props) => {
 
     useEffect(() => {
         socket.on("updateTimecodes", (data) => {
+            console.log('YEAAAAH', data)
             setTimecodes(data.timecodes);
             setScripts(data.script);
         });
@@ -37,36 +40,8 @@ const TimecodesSection = (props) => {
     }, []);
 
     useEffect(() => {
+        console.log('YEAAAAH', views)
         fetchTimecodes();
-    }, []);
-
-    useEffect(() => {
-        setViews({
-            'classification': localStorage.getItem('classification-view'),
-            'description': localStorage.getItem('description-view'),
-            'takes': localStorage.getItem('takes-view'),
-            'audio': localStorage.getItem('audio-view'),
-            'locution': localStorage.getItem('locution-view'),
-            'audios': localStorage.getItem('audios-view')
-        })
-    }, []);
-
-    useEffect(() => {
-        const handleStorageChange = (event) => {
-            const key = event.detail.key.replace('-view', '');
-            const value = event.detail.value;
-
-            // Atualiza o estado com o novo valor
-            setViews((prevViews) => ({
-                ...prevViews,
-                [key]: value,
-            }));
-        };
-        window.addEventListener('localStorageUpdated', handleStorageChange);
-
-        return () => {
-            window.removeEventListener('localStorageUpdated', handleStorageChange);
-        };
     }, []);
 
     const fetchTimecodes = async () => {
@@ -584,7 +559,7 @@ const TimecodesSection = (props) => {
                                                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                                         zIndex: '10',
                                                     }}>
-                                                        {views.description === 'show' &&
+                                                        {views['description-view'] === 'show' &&
                                                             <div
                                                                 onClick={() => changeScene(script, 'description', false)}
                                                                 style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 16px 10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
@@ -593,7 +568,7 @@ const TimecodesSection = (props) => {
                                                                 <span style={{ fontSize: '16px' }}>Descrição</span>
                                                             </div>
                                                         }
-                                                        {views.takes === 'show' &&
+                                                        {views['takes-view'] === 'show' &&
                                                             <div
                                                                 onClick={() => changeScene(script, 'takes', false)}
                                                                 style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
@@ -602,7 +577,7 @@ const TimecodesSection = (props) => {
                                                                 <span style={{ fontSize: '16px' }}>Takes</span>
                                                             </div>
                                                         }
-                                                        {views.audio === 'show' &&
+                                                        {views['audio-view'] === 'show' &&
                                                             <div
                                                                 onClick={() => changeScene(script, 'audio', false)}
                                                                 style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
@@ -611,7 +586,7 @@ const TimecodesSection = (props) => {
                                                                 <span style={{ fontSize: '16px' }}>Áudio</span>
                                                             </div>
                                                         }
-                                                        {views.locution === 'show' &&
+                                                        {views['locution-view']=== 'show' &&
                                                             <div
                                                                 onClick={() => changeScene(script, 'locution', false)}
                                                                 style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px 16px 16px', cursor: 'pointer', background: 'rgba(121, 116, 126, 0.1)' }}
@@ -620,7 +595,7 @@ const TimecodesSection = (props) => {
                                                                 <span style={{ fontSize: '16px' }}>Locução</span>
                                                             </div>
                                                         }
-                                                        {views.audios === 'show' &&
+                                                        {views['audios-view'] === 'show' &&
                                                             script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 &&
                                                             <div
                                                                 onClick={() => changeScene(script, 'audios', false)}
@@ -666,13 +641,13 @@ const TimecodesSection = (props) => {
                                             :
                                             <div style={{ display: 'flex', gap: '16px', padding: '16px' }}>
                                                 <div style={{ flex: "1", display: 'flex', flexDirection: "column", gap: '8px' }}>
-                                                    {script.activeFields.includes('description') && views.description === 'show' &&
+                                                    {script.activeFields.includes('description') && views['description-view'] === 'show' &&
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                             <Image src="/description.svg" alt="Descrição" width={18} height={18} style={{ width: "18px", height: "18px" }} />
                                                             <ScriptInput placeholder='Descrição' value={script.description} onChange={value => changeScene(script, 'description', true, value)} script={script} />
                                                         </div>
                                                     }
-                                                    {script.activeFields.includes('takes') && views.takes === 'show' &&
+                                                    {script.activeFields.includes('takes') && views['takes-view'] === 'show' &&
                                                         <div
                                                             style={
                                                                 script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 ?
@@ -742,19 +717,19 @@ const TimecodesSection = (props) => {
                                                     }
                                                 </div>
                                                 <div style={{ flex: "1", display: 'flex', flexDirection: "column", gap: '8px' }}>
-                                                    {script.activeFields.includes('audio') && views.audio === 'show' &&
+                                                    {script.activeFields.includes('audio') && views['audio-view'] === 'show' &&
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                             <Image src="/A.svg" alt="Áudio" width={18} height={18} style={{ width: "18px", height: "18px" }} />
                                                             <ScriptInput placeholder='Áudio' value={script.audio} onChange={value => changeScene(script, 'audio', true, value)} script={script} />
                                                         </div>
                                                     }
-                                                    {script.activeFields.includes('locution') && views.locution === 'show' &&
+                                                    {script.activeFields.includes('locution') && views['locution-view'] === 'show' &&
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', border: '0.5px solid rgb(18, 14, 35)', borderRadius: '4px' }}>
                                                             <Image src="/blue-microphone.svg" alt="Locução" width={18} height={18} style={{ width: "18px", height: "18px" }} />
                                                             <ScriptInput placeholder='Locução' value={script.locution} onChange={value => changeScene(script, 'locution', true, value)} script={script} />
                                                         </div>
                                                     }
-                                                    {script.activeFields.includes('audios') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views.audios === 'show' &&
+                                                    {script.activeFields.includes('audios') && script.timecodes.filter(timecode => timecode.type === 'AV').length === 0 && views['audios-view'] === 'show' &&
                                                         <div
                                                             style={{
                                                                 padding: '12px',

@@ -8,10 +8,12 @@
     "productName": "DecoupageApp",
     "files": [
       "**/*",
+      "src/**/*",
       ".next/**/*",
       "public/**/*",
+      "node_modules/**/*",
       "package.json",
-      "next.config.js",
+      "next.config.mjs",
       "main.cjs",
       "socket.cjs"
     ],
@@ -38,12 +40,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server.cjs",
-    "build": "next build && electron-builder build",
-    "start": "concurrently \"NODE_ENV=production node server.cjs\" \"npm run electron\"",
+    "next:start": "next start",
+    "build": "next build",
     "lint": "next lint",
     "export": "next export",
-    "electron": "electron ."
+    "dev": "node main.cjs",
+    "build-electron": "electron-builder build",
+    "start": "concurrently \"NODE_ENV=production node server.js\" \"npm run electron\"",
+    "electron": "npx electron ."
   },
   "dependencies": {
     "@hello-pangea/dnd": "^17.0.0",
